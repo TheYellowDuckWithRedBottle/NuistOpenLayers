@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "主页";
+}
+@using XinYiThree.ViewModels
+@model LoginViewModel
+<div class="container">
+    <div class="userLogin">
+        <form asp-action="Login" method="post" asp-controller="Account" class="form-signin" role="form">
+            <h2 class="form-signin-heading" style="text-align:center">用户登陆</h2>
+            <div class="form-group">
+                <input asp-for="Username" placeholder="请输入用户名" class="form-control" />
+                <span class="glyphicon glyphicon-user"></span>
+                <span asp-validation-for="Username"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Password" placeholder="请输入密码" class="form-control" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
+            </div>
+            <div class="form-group">
+                <a asp-controller="Account" asp-action="Signin"  style="margin-left:230px;display:inline-block">注册</a>
+                </div>
+            <div asp-validation-summary="All">
+            </div>
+        </form>
+
+    </div>
+    
+
+</div>
+

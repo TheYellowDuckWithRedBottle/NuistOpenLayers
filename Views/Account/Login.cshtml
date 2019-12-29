@@ -1,0 +1,22 @@
+﻿@{ 
+    ViewData["Title"] = "登录";
+}
+@using XinYiThree.ViewModels
+@model LoginViewModel
+
+<form asp-action="Login" method="post" class="col-6">
+    <div>
+        <label asp-for="Username" class="col-form-label">用户名</label>
+
+        <input asp-for="Username"  class="input-group"/>
+        <span class="glyphicon glyphicon-user"></span>
+        <span asp-validation-for="Username" ></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" />
+        <span class="glyphicon glyphicon-envelope "></span>
+        <span asp-validation-for="Password"></span>
+    </div>
+    <button class="btn btn-secondary btn-block" type="submit">提交</button>
+</form>

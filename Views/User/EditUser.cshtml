@@ -1,0 +1,19 @@
+﻿@using XinYiThree.ViewModels;
+@model UserEidtViewModel
+<form methord="post" asp-action="EditUser">
+    <h2 class="form-signin-heading" style="text-align:center">编辑用户</h2>
+    <div class="form-group">
+        <input asp-for="UserName" class="form-control" placeholder="修改用户名" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+    <div class="form-group">
+        <input asp-for="Email" class="form-control" placeholder="修改邮箱" />
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div class="invalid" asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+
+</form>

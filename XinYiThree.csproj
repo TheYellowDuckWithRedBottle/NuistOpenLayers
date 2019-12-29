@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <UserSecretsId>95a0fdd4-4d7a-48b9-9e24-a48e54562cdc</UserSecretsId>
+    <StartupObject>XinYiThree.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20191212114354_AddApplication.cs" />
+    <Compile Remove="Data\Migrations\20191212114354_AddApplication.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191212114718_ApplicationUser.cs" />
+    <Compile Remove="Data\Migrations\20191212114718_ApplicationUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191212115829_USER.cs" />
+    <Compile Remove="Data\Migrations\20191212115829_USER.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191212122552_APPLICATION.cs" />
+    <Compile Remove="Data\Migrations\20191212122552_APPLICATION.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191212125406_applicationUser.cs" />
+    <Compile Remove="Data\Migrations\20191212125406_applicationUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191213044959_applicationuser.cs" />
+    <Compile Remove="Data\Migrations\20191213044959_applicationuser.Designer.cs" />
+    <Compile Remove="Migrations\XinyiDB\20191213050241_first.cs" />
+    <Compile Remove="Migrations\XinyiDB\20191213050241_first.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\lib\backbone-min.js" />
+    <None Include="wwwroot\js\lib\bootstrap-treeview.js" />
+    <None Include="wwwroot\js\lib\jquery.min.js" />
+    <None Include="wwwroot\js\lib\require.min.js" />
+    <None Include="wwwroot\js\lib\underscore-min.1.4.4.js" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Update="wwwroot\lib\jquery\dist\jquery1.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

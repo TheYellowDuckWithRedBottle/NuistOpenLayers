@@ -1,0 +1,11 @@
+﻿@using XinYiThree.ViewModels;
+@model UserRoleViewModel
+
+<form method="post" asp-action="AddUserToRole">
+    <input type="hidden" name="roldId" readonly value="@Model.RoldId"/>
+    <select asp-for="UserId" asp-items="@(new SelectList(Model.Users,"Id","UserName"))">
+        <option class="font-weight-bold">--请选择用户--</option>
+
+    </select>
+    <button type="submit" class="btn btn-primary">确定</button>
+</form>

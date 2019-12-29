@@ -1,0 +1,58 @@
+﻿
+@using XinYiThree.ViewModels
+@model XinYiThree.Models.RoleEditModel
+<div class="userLogin container">
+    <div class="container center-block">
+        <form methord="post" asp-action="EditRole">
+            <h2 class="form-signin-heading" style="text-align:center">编辑角色</h2>
+            <div class="form-group">
+                <label>角色ID</label>
+                <input class="form-control" value="@Model.Id" />
+            </div>
+            <div class="form-group">
+                <label>角色名称</label>
+                <input asp-for="RoleName" class="form-control" placeholder="修改角色名" />
+                <span asp-validation-for="RoleName"></span>
+            </div>
+
+            <div class="invalid" asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary center-block">保存</button>
+            </div>
+
+        </form>
+    </div>
+    <hr>
+    <div class="container-fluid ">
+        <h4 class="border-danger text-center">拥有该角色的用户</h4>
+        <table class="table-active">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="auto" class="col-1">用户名</th>
+                    <th scope="auto"class="col-6">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Users)
+                {
+                    <tr>
+                        <th scope="row"><strong>@item</strong></th>
+                        <td>
+                            <form method="post" asp-action="RemoveUserFromRole">
+                                <input type="hidden" name="UserName" value=@item />
+                                <input type="hidden" name="RoldId" value=@Model.Id>
+
+                                <button type="submit" class="btn btn-danger" onclick="confirm(' 确定移除？')">移除</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+
+        <a class="btn btn-primary " asp-action="AddUserToRole" method="post" asp-route-roleId="@Model.Id">向该角色添加用户</a>
+
+    </div>
+</div>
