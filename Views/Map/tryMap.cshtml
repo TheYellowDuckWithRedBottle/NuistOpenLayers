@@ -109,7 +109,7 @@
         <label>Geometry type </label>
         <select id="type">
             <option value="length">Length</option>
-            <option value="Area">Area</option>
+            <option value="area">Area</option>
         </select>
         <label class="checkbox">
             <input type="checkbox" id="geodesic" />use geodesic measures
@@ -172,7 +172,7 @@
             })
         })
     });
-
+    
 
     var wmsTileLayer = new ol.layer.Tile({
         visiable: true,
@@ -186,8 +186,8 @@
                 //zindex: 3,
                 //TRANSPARENT: false,
                 //projection: 'EPSG:3857',
-                // SRS:'EPSG:4326',
-                'Content-type': 'png'
+               // SRS:'EPSG:4326',
+                'Content-type':'png'
             },
             serverType: 'geoserver'
         })
@@ -204,31 +204,23 @@
             center: [1.321448384766289E7, 3790079.31448777],
             minZoom: 12,
             zoom: 15,
-            maxZoom: 19,
+            maxZoom:19,
             projection: 'EPSG:3857'
         }),
         controls: ol.control.defaults().extend([mousePositionControl])
     });
- 
-    //var featureOverlay = new ol.layer.Vector({
-    //    source: new ol.source.Vector(),
-    //    style: highStyle
-    //});
-    //map.addLayer(featureOverlay);//加载画的要素
-    //map.addLayer(vector);
-
-    var MeasureSource = new ol.source.Vector();
-    var MeasureVector = new ol.layer.Vector({
-        source: MeasureSource,
+    var source = new ol.source.Vector();
+    var vector = new ol.layer.Vector({
+        source: source,
         style: new ol.style.Style({
-            fill: new ol.style.Fill({
+            fill: new ol.style.Fill({//填充色
                 color: 'rgba(255,255,255,0.2)'
             }),
-            stroke: new ol.style.Stroke({
+            stroke: new ol.style.Stroke({//画笔
                 color: '#ffcc33',
                 width: 2
             }),
-            image: new ol.style.Circle({
+            image: new ol.style.Circle({//点要素样式
                 radius: 7,
                 fill: new ol.style.Fill({
                     color: '#ffcc33'
@@ -236,43 +228,51 @@
             })
         })
     });
-    map.addLayer(MeasureVector);
-
-    var wgs84Sphere = new ol.Sphere(6378137);
-    var sketch;
-    var helpTooltipElement;
-    var helpTooltip;
-    var measureTooltipElement;
-    var measureTooltip;
-    var continuePolygonMsg = "Click drawing polygon"
-    var continueLineMsg="click drawing polyline"
-
-
-    var pointerMoveHandler = function (evt) {
-        if (evt.dragging) { return; }
-        var helpMsg = 'click to drawing';
-        if (sketch) {
-            var geom = (sketch.getGeometry());
-            if (geom instanceof ol.geom.Polygon) {
-                helpMsg = continuePolygonMsg;
-            } else if (geom instanceof ol.geom.LineString) {
-                helpMsg = continueLineMsg;
-            }
-        }
-    };
-    $(map.getViewport()).on('mouseout', function () {
-        $(helpTooltipElement).addClass('hidden');
+    var highStyle = new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'rgba(255,255,255,0.2)'
+        }),
+        stroke: new ol.style.Stroke({
+            color: '#FF0000',
+            width: 5
+        }),
+        image: new ol.style.Circle({
+            radius: 7,
+            fill: new ol.style.Fill({
+                color: '#ffcc33'
+            })
+        })
+    })
+    var featureOverlay = new ol.layer.Vector({
+        source: new ol.source.Vector(),
+        style: highStyle
     });
+    map.addLayer(featureOverlay);//加载画的要素
+    map.addLayer(vector);
+    //map.addLayer(wmsTileLayer);
+    //map.addLayer(wfsLayer);//加载wfs
+
+    //添加滑块
+    var zoomslider = new ol.control.ZoomSlider();
+    map.addControl(zoomslider);
 
     var geodesicCheckbox = document.getElementById('geodesic');
     var typeSelect = document.getElementById('type');
     var draw;
+    var sketch;
+
+    //用户更改事件
+    typeSelect.onchange = function (e) {
+        map.removeInteraction(draw);//移除绘制图形
+        addInteraction();//添加交互绘制功能控件
+    };
+    addInteraction();//添加交互绘制功能控件
 
     function addInteraction() {
-        var Geomtype = (typeSelect.value == 'Area'?'Polygon':'LineString');
-        draw = new ol.interaction.Draw({//交互的图层
-            source: MeasureSource,
-            type: Geomtype,
+        var type = (typeSelect.value == 'area' ? 'Polygon' : 'LineString');
+        draw = new ol.interaction.Draw({
+            source: source,
+            type: type,
             style: new ol.style.Style({
                 fill: new ol.style.Fill({
                     color: 'rgba(255,255,255,0.2)'
@@ -294,10 +294,8 @@
             })
         });
         map.addInteraction(draw);
-
         createMeasureTooltip();
         createHelpTooltip();
-
         var listener;
         draw.on('drawstart', function (evt) {
             sketch = evt.feature;
@@ -318,14 +316,20 @@
         }, this);
 
         draw.on('drawend', function (evt) {
-            measureTooltipElement.class = 'tooptip tooltip-static';
+            measureTooltipElement.className = 'tooltip tooltip-static';
+            measureTooltip.setOffset([0, -7]);
+            sketch = null;
+            measureTooltipElement = null;
             measureTooltip.setOffset([0, -7]);
             sketch = null;
             measureTooltipElement = null;
             createMeasureTooltip();
-            ol.Observable.unByKey(listener);//移除时间监听器
+            ol.Observable.unByKey(listener);
         }, this);
     }
+    //添加帮助工具
+    var helpTooltipElement;
+    var helpTooltip;
     function createHelpTooltip() {
         if (helpTooltipElement) {
             helpTooltipElement.parentNode.removeChild(helpTooltipElement);
@@ -339,6 +343,9 @@
         });
         map.addOverlay(helpTooltip);
     }
+    //添加测量工具
+    var measureTooltipElement;
+    var measuerTooltip;
     function createMeasureTooltip() {
         if (measureTooltipElement) {
             measureTooltipElement.parentNode.removeChild(measureTooltipElement);
@@ -352,10 +359,6 @@
         });
         map.addOverlay(measureTooltip);
     }
-    typeSelect.onchange = function (e) {
-        map.removeInteraction(draw);
-        addInteraction();
-    }
     var formatLength = function (line) {
         var length;
         if (geodesicCheckbox.checked) {
@@ -365,16 +368,17 @@
             for (var i = 0, ii = coordinates.length - 1; i < ii; ++i) {
                 var c1 = ol.proj.transform(coordinates[i], sourceProj, 'EPSG:4326');
                 var c2 = ol.proj.transform(coordinates[i + 1], sourceProj, 'EPSG:4326');
-                lenth += wgs84Sphere.haversineDistance(c1, c2);
+                length += wgs84Sphere.haversineDistance(c1, c2);
             }
-        } else {
+        }
+        else {
             length = Math.round(line.getLength() * 100) / 100;
         }
         var output;
         if (length > 100) {
-            output = (Math.round(length / 1000 * 100) / 100) + ' ' + 'km';
+            output = (Math.round(length / 1000 * 100) / 100) + '' + 'km';
         } else {
-            output = (Math.round(length * 100) / 100) + ' ' + 'm';
+            output = (Math.round(length * 100) / 100) + '' + 'm';
         }
         return output;
     }
@@ -382,21 +386,78 @@
         var area;
         if (geodesicCheckbox.checked) {
             var sourceProj = map.getView().getProjection();
-            var geom = (polygon.clone().transform(sourceProj, 'EPSG:4326'));
+            var geom = polygon.clone().transform(sourceProj, 'EPSG:4326');
             var coordinates = geom.getLinearRing(0).getCoordinates();
             area = Math.abs(wgs84Sphere.geodesicArea(coordinates));
-        } else {
+        }
+        else {
             area = polygon.getArea();
         }
         var output;
         if (area > 10000) {
-            output = (Math.round(area / 1000000 * 100) / 100) + ' ' + 'km<sup>2</sup>'
+            output = (Math.round(area * 100) / 100) + ' ' + 'km<sup>2</sup>';
         } else {
-            area = (Math.round(area * 100) / 100) + ' ' + 'm<sup>2</sup>'
+            output = (Math.round(area * 100) / 100 + '' + 'm<sup>2</sup>');
         }
         return output;
+    }
+    var continuePolygonMsg = 'Click to continue drawing the polygon';
+    var continueLineMsg = 'Click to continue drawing the line';
+
+
+    //var highStyle = new ol.style.Style({
+    //    fill: new ol.style.Fill({
+    //        color:'rgba(255,255,255,0.2)'
+    //    }),
+    //    stroke: new ol.style.Stroke({
+    //        color: '#FF0000',
+    //        width:5
+    //    }),
+    //    image: new ol.style.Circle({
+    //        radius: 7,
+    //        fill: new ol.style.Fill({
+    //            color:'#ffcc33'
+    //        })
+    //    })
+    //})
+    //var featureOverlay = new ol.layer.Vector({
+    //    source: new ol.source.Vector(),
+    //    style: highStyle
+    //});
+    //map.addLayer(featureOverlay);
+    var highFeature = null;
+    var pointerMoveHandler = function (evt) {
+        // console.log(evt)
+        var features = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+            return {
+                feature: feature,
+                layer: layer
+            };
+        });
+        if (features) {
+            highFeature = features.feature;
+            features.feature.setStyle(highStyle)
+        } else {
+            if (highFeature)
+                highFeature.setStyle(highStyle)
+        }
+
+        if (evt.dragging) {
+            return;
+        }
+        var helpMsg = 'Click to start drawing';
+        if (sketch) {
+            var geom = (sketch.getGeometry());
+            if (geom instanceof ol.geom.Polygon) {
+                helpMsg = continuePolygonMsg;
+            } else if (geom instanceof ol.geom.LineString) {
+                helpMsg = continueLineMsg;
+            }
+        }
+        helpTooltipElement.innerHTML = helpMsg;
+        helpTooltip.setPosition(evt.coordinate);
+        $(helpTooltipElement).removeClass('hidden');
     };
-    //addInteraction();
 
     var pointerDownHandler = function (evt) {
         console.log(evt);
@@ -415,7 +476,9 @@
     map.on('pointerup', pointerUpHandler);
     map.on('pointerdown', pointerDownHandler);
     map.on('pointermove', pointerMoveHandler);
-  
+    $(map.getViewport()).on('mouseout', function () {
+        $(helpTooltipElement).addClass('hidden');
+    });
     $(function () {
 
         var defaultData = [
@@ -459,6 +522,8 @@
             }
         ];
 
+ 
+
         var $checkableTree = $('#treeview-checkable').treeview({
             data: defaultData,
             showIcon: false,
@@ -468,7 +533,7 @@
                 if (node.text == "矢量线图层" && wfsLayer != null) {
                     map.addLayer(wfsLayer);
                     //map.
-                } else if (node.text == "WMS服务" && wmsTileLayer !== null) {
+                } else if (node.text == "WMS服务" && wmsTileLayer!==null) {
                     map.addLayer(wmsTileLayer);
                 }
                 $('#checkable-output').prepend('<p>' + node.text + ' was checked</p>');

@@ -163,3 +163,4 @@ C:\Users\Levi_Fan\source\repos\XinYiThree\obj\Debug\netcoreapp2.2\XinYiThree.Raz
 C:\Users\Levi_Fan\source\repos\XinYiThree\obj\Debug\netcoreapp2.2\XinYiThree.Views.pdb
 C:\Users\Levi_Fan\source\repos\XinYiThree\obj\Debug\netcoreapp2.2\XinYiThree.csproj.CopyComplete
 C:\Users\Levi_Fan\source\repos\XinYiThree\obj\Debug\netcoreapp2.2\Razor\Views\Map\2DMap.g.cshtml.cs
+C:\Users\Levi_Fan\source\repos\XinYiThree\obj\Debug\netcoreapp2.2\Razor\Views\Map\tryMap.g.cshtml.cs
