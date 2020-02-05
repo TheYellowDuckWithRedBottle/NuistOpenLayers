@@ -18,7 +18,7 @@ namespace XinYiThree.Controllers
         {
             
             Logger.LogInformation(MyLogEventIds.HomePage,"Visit the map control");
-            return View();
+            return View("2DMap");
         }
     }
 }

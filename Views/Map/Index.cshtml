@@ -15,7 +15,7 @@
 
 <nav role="navigation" class="navbar bg-dark " style="background:black;margin-bottom:0px">
     <div class="container-fluid">
-        <a class="navbar-brand " asp-area="" asp-controller="Home" asp-action="Index">新沂市三维展示系统</a>
+        <a class="navbar-brand " asp-area="" asp-controller="Home" asp-action="Index">南京信息工程大学</a>
         <div class="navbar-right" style="margin:20px">
             <ul class="list-unstyled list-inline">
                 @*<li class="nav-item col-3">
@@ -42,7 +42,7 @@
 </nav>
 
 
-<div class="col-sm-4" style="position:absolute; z-index:2 ;right:20px">
+<div class="col-sm-4" style="position:absolute; z-index:2 ;right:20px;width:300px">
     <div class="input-group">
         <input type="text" class="form-control" onkeydown="onKeyDown(event)" />
         <span class="input-group-addon" "><i class="glyphicon glyphicon-search"></i></span>
@@ -71,34 +71,34 @@
         var defaultData = [
             {
             id: "1",
-        text: '新沂市栅格数据',
+        text: '栅格数据',
         href: '#parent1',
         tags: ['4'],
         nodes: [
                     {
-            text: '新沂DEM',
+            text: 'DEM',
                 href: 'http://10.1.102.16:9000/terrain/6b398ba01fb011ea8bf36705383ddc78',
         tags: ['2']
     },
                     {
-            text: '新沂市DSM',
+            text: 'DSM',
                 href:'http://localhost:9000/terrain/f8ad0a00213311ea938af100420ea8d1',
         tags: ['0']
     }
 ]
 },
             {
-            text: '新沂市倾斜摄影模型',
+            text: '南京信息',
         href: '#parent2',
         tags: ['0']
     },
             {
-            text: '骆马湖水体模型',
+            text: '水体模型',
         href: '#parent3',
         tags: ['0']
     },
             {
-            text: '骆马湖三调图斑',
+            text: '图斑',
         href: '#parent4',
         tags: ['0']
     },

@@ -9,7 +9,7 @@ using XinYiThree.ViewModels;
 
 namespace XinYiThree.Controllers
 {
-    [Authorize(Roles ="管理员")]
+   // [Authorize(Roles ="管理员")]
     public class UserController:Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

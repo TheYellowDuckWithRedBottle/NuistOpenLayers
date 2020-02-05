@@ -9,7 +9,7 @@ using XinYiThree.ViewModels;
 
 namespace XinYiThree.Controllers
 {
-    [Authorize(Policy ="仅限管理员")]
+   // [Authorize(Policy ="仅限管理员")]
    // [Authorize(Roles ="管理员")]
     public class RoleController : Controller
     {

@@ -37,7 +37,7 @@ namespace XinYiThree.Controllers
                 var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Map");
+                    return RedirectToAction("index", "Map");
                 }
             }
             ModelState.AddModelError("","用户名或者密码错误");

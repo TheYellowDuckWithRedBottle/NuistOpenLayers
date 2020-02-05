@@ -23,6 +23,8 @@
     <Compile Remove="Data\Migrations\20191213044959_applicationuser.Designer.cs" />
     <Compile Remove="Migrations\XinyiDB\20191213050241_first.cs" />
     <Compile Remove="Migrations\XinyiDB\20191213050241_first.Designer.cs" />
+    <Compile Remove="Migrations\XinyiDB\20191231100859_second.cs" />
+    <Compile Remove="Migrations\XinyiDB\20191231100859_second.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +33,8 @@
     <None Include="wwwroot\js\lib\jquery.min.js" />
     <None Include="wwwroot\js\lib\require.min.js" />
     <None Include="wwwroot\js\lib\underscore-min.1.4.4.js" />
+    <None Include="wwwroot\lib\openLayer\v3.19.1-dist\ol-debug.js" />
+    <None Include="wwwroot\lib\openLayer\v3.19.1-dist\ol.js" />
   </ItemGroup>
 
 

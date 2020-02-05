@@ -2,8 +2,7 @@
     waitSeconds: 60, // 加载超时时间，单位为秒
     paths: {
         //Cesium: '../Build/Cesium/Cesium',
-        Cesium: 'Cesium',
-        jquery: "lib/jquery.min",      
+        Cesium: 'Cesium',    
         bootstrapTree: 'bootstrap-treeview',
      
     },
@@ -124,21 +123,7 @@ function init(Cesium) {
         tileset._root.transform = m;
     }
     var tilesetArray = new Array();
-    require(['jquery'], function ($) {
-        require(['./views/ToolBar', './views/ViewerContainer', './tools/Position'],
-            function (ToolBar, ViewerContainer, Position) {
-                //var sceneModel = new SceneModel(viewer);
-                var viewerContainer = new ViewerContainer();
-                //sceneModel.viewerContainer =  viewerContainer;
-                var toolBar = new ToolBar({
-                    viewer: viewer,
-                    tilesetArray: tilesetArray,
-                    //sceneModel: sceneModel,
-                    //isPCBroswer: isPCBroswer
-                });
-               // viewerContainer.addComponent(toolBar, new Position());
-            });
-    });
+   
     return viewer;
 }
 
